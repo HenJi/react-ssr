@@ -9,11 +9,11 @@ import createStore from "./store";
 const store = createStore( (window as any).REDUX_DATA );
 
 const jsx = (
-    <ReduxProvider store={ store }>
-        <Router>
-            <Layout />
-        </Router>
-    </ReduxProvider>
+  <ReduxProvider store={ store }>
+    <Router>
+      <Layout />
+    </Router>
+  </ReduxProvider>
 );
 
 const app = document.getElementById( "app" );

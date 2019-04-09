@@ -10,7 +10,7 @@
     "client": "webpack --watch --progress",
     "linter": "eslint src",
     "bundlesize": "bundlesize",
-    "precommit": "eslint src/**/*.ts --quiet"
+    "precommit": "eslint src/*.ts src/**/*.ts --quiet"
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
