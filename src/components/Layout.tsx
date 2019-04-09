@@ -1,7 +1,7 @@
-import * as React from "react";
-import { Switch, Route } from "react-router-dom";
-import Header from "./Header";
-import routes from "../routes";
+import * as React from "react"
+import { Switch, Route } from "react-router-dom"
+import Header from "./Header"
+import routes from "../routes"
 
 interface State {
     title: string
@@ -9,10 +9,10 @@ interface State {
 
 class Layout extends React.Component<{}, State> {
     constructor(props: {}) {
-        super(props);
+        super(props)
         this.state = {
             title: "Welcome to React SSR!",
-        };
+        }
     }
 
     render() {
@@ -24,8 +24,8 @@ class Layout extends React.Component<{}, State> {
                     { routes.map( route => <Route key={ route.path } { ...route } /> ) }
                 </Switch>
             </div>
-        );
+        )
     }
 }
 
-export default Layout;
+export default Layout

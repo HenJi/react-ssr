@@ -1,9 +1,9 @@
-import { RouteProps } from "react-router-dom";
+import { RouteProps } from "react-router-dom"
 
-import Home from "./components/Home";
-import About from "./components/About";
-import Contact from "./components/Contact";
-import Secret from "./components/Secret";
+import Home from "./components/Home"
+import About from "./components/About"
+import Contact from "./components/Contact"
+import Secret from "./components/Secret"
 
 interface AppRoute extends RouteProps {
   path: string
@@ -30,5 +30,5 @@ const routes: AppRoute[] = [
     component: Secret,
     exact: true,
   },
-];
+]
 export default routes

@@ -1,32 +1,32 @@
-import * as express from "express";
-import * as path from "path";
+import * as express from "express"
+import * as path from "path"
 
-import * as React from "react";
-import { renderToString } from "react-dom/server";
-import { StaticRouter, matchPath } from "react-router-dom";
-import { Provider as ReduxProvider } from "react-redux";
-import { Helmet, HelmetData } from "react-helmet";
+import * as React from "react"
+import { renderToString } from "react-dom/server"
+import { StaticRouter, matchPath } from "react-router-dom"
+import { Provider as ReduxProvider } from "react-redux"
+import { Helmet, HelmetData } from "react-helmet"
 
-import routes from "./routes";
-import Layout from "./components/Layout";
-import createStore, { storeActions } from "./store";
+import routes from "./routes"
+import Layout from "./components/Layout"
+import createStore, { storeActions } from "./store"
 
-const app = express();
+const app = express()
 
-app.use( express.static( path.resolve( __dirname, "../dist" ) ) );
+app.use( express.static( path.resolve( __dirname, "../dist" ) ) )
 
 app.get( "/*", ( req, res ) => {
-  const context = { };
-  const store = createStore( );
+  const context = { }
+  const store = createStore( )
 
-  store.dispatch( storeActions.initializeSession( ) );
+  store.dispatch( storeActions.initializeSession( ) )
 
   const dataRequirements =
     routes
       .filter( route => matchPath( req.url, route ) ) // filter matching paths
       .map( route => route.component ) // map to components
       .filter( comp => comp.hasOwnProperty('serverFetch') ) // check if components have data requirement
-      .map( comp => store.dispatch( (comp as any).serverFetch( ) ) ); // dispatch data requirement
+      .map( comp => store.dispatch( (comp as any).serverFetch( ) ) ) // dispatch data requirement
 
   Promise.all( dataRequirements ).then( ( ) => {
     const jsx = (
@@ -35,17 +35,17 @@ app.get( "/*", ( req, res ) => {
           <Layout />
         </StaticRouter>
       </ReduxProvider>
-    );
-    const reactDom = renderToString( jsx );
-    const reduxState = store.getState( );
-    const helmetData = Helmet.renderStatic( );
+    )
+    const reactDom = renderToString( jsx )
+    const reduxState = store.getState( )
+    const helmetData = Helmet.renderStatic( )
 
-    res.writeHead( 200, { "Content-Type": "text/html" } );
-    res.end( htmlTemplate( reactDom, reduxState, helmetData ) );
-  } );
-} );
+    res.writeHead( 200, { "Content-Type": "text/html" } )
+    res.end( htmlTemplate( reactDom, reduxState, helmetData ) )
+  } )
+} )
 
-app.listen( 2048 );
+app.listen( 2048 )
 
 function htmlTemplate( reactDom: string, reduxState: {}, helmetData: HelmetData ) {
   return `
@@ -66,5 +66,5 @@ function htmlTemplate( reactDom: string, reduxState: {}, helmetData: HelmetData 
       <script src="./app.bundle.js"></script>
     </body>
     </html>
-  `;
+  `
 }

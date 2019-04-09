@@ -1,8 +1,8 @@
-import * as React from "react";
-import { connect } from "react-redux";
+import * as React from "react"
+import { connect } from "react-redux"
 
 import { Circuit } from '../models/Circuit'
-import { fetchData, StoreState } from "../store";
+import { fetchData, StoreState } from "../store"
 
 interface InnerProps {
     circuits: Circuit[]
@@ -15,16 +15,16 @@ interface DispatchProps {
 type Props = InnerProps & DispatchProps
 
 class Home extends React.Component<Props> {
-    public serverFetch = fetchData; // static declaration of data requirements
+    public serverFetch = fetchData // static declaration of data requirements
 
     componentDidMount( ) {
         if ( this.props.circuits.length <= 0 ) {
-            this.props.fetchData( );
+            this.props.fetchData( )
         }
     }
 
     render( ) {
-        const { circuits } = this.props;
+        const { circuits } = this.props
 
         return (
             <div>
@@ -35,16 +35,16 @@ class Home extends React.Component<Props> {
                     ) ) }
                 </ul>
             </div>
-        );
+        )
     }
 }
 
 const mapStateToProps = ( state: StoreState ): InnerProps => ( {
     circuits: state.data,
-} );
+} )
 
 const mapDispatchToProps: DispatchProps = {
     fetchData,
-};
+}
 
-export default connect( mapStateToProps, mapDispatchToProps )( Home );
+export default connect( mapStateToProps, mapDispatchToProps )( Home )

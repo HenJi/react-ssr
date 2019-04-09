@@ -1,5 +1,5 @@
-import * as React from "react";
-import Helmet from "react-helmet";
+import * as React from "react"
+import Helmet from "react-helmet"
 
 const Contact: React.FunctionComponent = () => (
   <div>
@@ -9,6 +9,6 @@ const Contact: React.FunctionComponent = () => (
       <meta name="description" content="This is a proof of concept for React SSR" />
     </Helmet>
   </div>
-);
+)
 
-export default Contact;
+export default Contact
