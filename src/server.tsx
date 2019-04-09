@@ -1,14 +1,15 @@
-import express from "express";
-import path from "path";
+import * as express from "express";
+import * as path from "path";
 
-import React from "react";
+import * as React from "react";
 import { renderToString } from "react-dom/server";
 import { StaticRouter, matchPath } from "react-router-dom";
 import { Provider as ReduxProvider } from "react-redux";
-import Helmet from "react-helmet";
+import { Helmet, HelmetData } from "react-helmet";
+
 import routes from "./routes";
 import Layout from "./components/Layout";
-import createStore, { initializeSession } from "./store";
+import createStore, { storeActions } from "./store";
 
 const app = express();
 
@@ -18,14 +19,14 @@ app.get( "/*", ( req, res ) => {
     const context = { };
     const store = createStore( );
 
-    store.dispatch( initializeSession( ) );
+    store.dispatch( storeActions.initializeSession( ) );
 
     const dataRequirements =
         routes
             .filter( route => matchPath( req.url, route ) ) // filter matching paths
             .map( route => route.component ) // map to components
-            .filter( comp => comp.serverFetch ) // check if components have data requirement
-            .map( comp => store.dispatch( comp.serverFetch( ) ) ); // dispatch data requirement
+            .filter( comp => comp.hasOwnProperty('serverFetch') ) // check if components have data requirement
+            .map( comp => store.dispatch( (comp as any).serverFetch( ) ) ); // dispatch data requirement
 
     Promise.all( dataRequirements ).then( ( ) => {
         const jsx = (
@@ -46,7 +47,7 @@ app.get( "/*", ( req, res ) => {
 
 app.listen( 2048 );
 
-function htmlTemplate( reactDom, reduxState, helmetData ) {
+function htmlTemplate( reactDom: string, reduxState: {}, helmetData: HelmetData ) {
     return `
         <!DOCTYPE html>
         <html>
@@ -56,7 +57,7 @@ function htmlTemplate( reactDom, reduxState, helmetData ) {
             ${ helmetData.meta.toString( ) }
             <title>React SSR</title>
         </head>
-        
+
         <body>
             <div id="app">${ reactDom }</div>
             <script>

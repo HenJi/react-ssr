@@ -1,7 +1,7 @@
-import React from "react";
+import * as React from "react";
 import Helmet from "react-helmet";
 
-const Contact = () => (
+const Contact: React.FunctionComponent = () => (
     <div>
         <h2>This is the contact page</h2>
         <Helmet>

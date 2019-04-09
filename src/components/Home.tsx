@@ -1,8 +1,22 @@
-import React from "react";
+import * as React from "react";
 import { connect } from "react-redux";
-import { fetchData } from "../store";
 
-class Home extends React.Component {
+import { Circuit } from '../models/Circuit'
+import { fetchData, StoreState } from "../store";
+
+interface InnerProps {
+    circuits: Circuit[]
+}
+
+interface DispatchProps {
+    fetchData: () => void
+}
+
+type Props = InnerProps & DispatchProps
+
+class Home extends React.Component<Props> {
+    public serverFetch = fetchData; // static declaration of data requirements
+
     componentDidMount( ) {
         if ( this.props.circuits.length <= 0 ) {
             this.props.fetchData( );
@@ -24,13 +38,12 @@ class Home extends React.Component {
         );
     }
 }
-Home.serverFetch = fetchData; // static declaration of data requirements
 
-const mapStateToProps = ( state ) => ( {
+const mapStateToProps = ( state: StoreState ): InnerProps => ( {
     circuits: state.data,
 } );
 
-const mapDispatchToProps = {
+const mapDispatchToProps: DispatchProps = {
     fetchData,
 };
 

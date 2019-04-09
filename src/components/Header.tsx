@@ -1,8 +1,16 @@
-import React from "react";
+import * as React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-const Header = ( { loggedIn } ) => (
+import { StoreState } from '../store'
+
+interface InnerProps {
+    loggedIn: boolean
+}
+
+type Props = InnerProps
+
+const Header: React.FunctionComponent<Props> = ( { loggedIn } ) => (
     <div>
         <Link to="/">Home</Link>
         <Link to="/about">About</Link>
@@ -11,7 +19,7 @@ const Header = ( { loggedIn } ) => (
     </div>
 );
 
-const mapStateToProps = ( state ) => ( {
+const mapStateToProps = ( state: StoreState ): InnerProps => ( {
     loggedIn: state.loggedIn,
 } );
 

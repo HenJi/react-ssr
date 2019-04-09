@@ -20,9 +20,10 @@ module.exports = {
     context: path.join( __dirname, "src" ),
     devtool: dev ? "none" : "source-map",
     entry: {
-        app: "./client.js",
+        app: "./client.tsx",
     },
     resolve: {
+        extensions: [".ts", ".tsx", ".js", ".jsx"],
         modules: [
             path.resolve( "./src" ),
             "node_modules",
@@ -35,6 +36,14 @@ module.exports = {
                 exclude: /(node_modules|bower_components)/,
                 loader: "babel-loader",
             },
+            {
+                test: /\.tsx?$/,
+                use: [
+                    {
+                        loader: require.resolve('ts-loader'),
+                    },
+                ],
+            }
         ],
     },
     output: {
