@@ -4,51 +4,51 @@ const { BundleAnalyzerPlugin } = require( "webpack-bundle-analyzer" );
 const FriendlyErrorsWebpackPlugin = require( "friendly-errors-webpack-plugin" );
 
 const plugins = [
-    new FriendlyErrorsWebpackPlugin(),
+  new FriendlyErrorsWebpackPlugin(),
 ];
 
 if ( !dev ) {
-    plugins.push( new BundleAnalyzerPlugin( {
-        analyzerMode: "static",
-        reportFilename: "webpack-report.html",
-        openAnalyzer: false,
-    } ) );
+  plugins.push( new BundleAnalyzerPlugin( {
+    analyzerMode: "static",
+    reportFilename: "webpack-report.html",
+    openAnalyzer: false,
+  } ) );
 }
 
 module.exports = {
-    mode: dev ? "development" : "production",
-    context: path.join( __dirname, "src" ),
-    devtool: dev ? "none" : "source-map",
-    entry: {
-        app: "./client.tsx",
-    },
-    resolve: {
-        extensions: [".ts", ".tsx", ".js", ".jsx"],
-        modules: [
-            path.resolve( "./src" ),
-            "node_modules",
+  mode: dev ? "development" : "production",
+  context: path.join( __dirname, "src" ),
+  devtool: dev ? "none" : "source-map",
+  entry: {
+    app: "./client.tsx",
+  },
+  resolve: {
+    extensions: [".ts", ".tsx", ".js", ".jsx"],
+    modules: [
+      path.resolve( "./src" ),
+      "node_modules",
+    ],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.jsx?$/,
+        exclude: /(node_modules|bower_components)/,
+        loader: "babel-loader",
+      },
+      {
+        test: /\.tsx?$/,
+        use: [
+          {
+            loader: require.resolve('ts-loader'),
+          },
         ],
-    },
-    module: {
-        rules: [
-            {
-                test: /\.jsx?$/,
-                exclude: /(node_modules|bower_components)/,
-                loader: "babel-loader",
-            },
-            {
-                test: /\.tsx?$/,
-                use: [
-                    {
-                        loader: require.resolve('ts-loader'),
-                    },
-                ],
-            }
-        ],
-    },
-    output: {
-        path: path.resolve( __dirname, "dist" ),
-        filename: "[name].bundle.js",
-    },
-    plugins,
+      }
+    ],
+  },
+  output: {
+    path: path.resolve( __dirname, "dist" ),
+    filename: "[name].bundle.js",
+  },
+  plugins,
 };
